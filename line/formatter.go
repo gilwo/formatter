@@ -13,9 +13,12 @@ const (
 	AlignDirRight
 )
 
-func align(val string, fieldLen int, direction AlignDirection) (out string) {
-	spaces := fieldLen - len(val)
-	if (spaces < 0 || fieldLen < 0) && direction != AlignDirNone {
+func align(val interface{}, fieldLen int, direction AlignDirection) (out string) {
+    actVal := fmt.Sprintf("%v", val)
+    lenVal := len(actVal)
+
+	spaces := fieldLen - lenVal
+    if (spaces < 0 || fieldLen < 0) && direction != AlignDirNone {
 		return
 	}
 
@@ -26,7 +29,7 @@ func align(val string, fieldLen int, direction AlignDirection) (out string) {
 	case AlignDirLeft:
 		padRight = fieldLen
 	case AlignDirCenter:
-		padLeft = spaces/2 + len(val)
+		padLeft = spaces/2 + lenVal
 		padRight = spaces/2 + spaces%2 + padLeft
 	case AlignDirRight:
 		padLeft = fieldLen
@@ -36,7 +39,7 @@ func align(val string, fieldLen int, direction AlignDirection) (out string) {
 	padLeftFmt := fmt.Sprintf("%%-%ds", padLeft)
 	padRightFmt := fmt.Sprintf("%%%ds", padRight)
 
-	out = fmt.Sprintf(padRightFmt, fmt.Sprintf(padLeftFmt, val))
+	out = fmt.Sprintf(padRightFmt, fmt.Sprintf(padLeftFmt, actVal))
 
 	return
 }
@@ -50,9 +53,9 @@ type LineFormatterField struct {
 	FieldAlign AlignDirection
 }
 
-func LineFormatter(format string, fields ...LineFormatterField) func (...string) string {
+func LineFormatter(format string, fields ...LineFormatterField) func (...interface{}) string {
 
-    return func(values ...string) string {
+    return func(values ...interface{}) string {
         if len(values) != len(fields) {
             pmsg := fmt.Sprintf("fields len '%d' (%v) mismatch values len '%d' (%v)",
                 len(fields), fields, len(values), values)
