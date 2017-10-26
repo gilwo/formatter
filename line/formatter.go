@@ -7,14 +7,15 @@ import (
 type AlignDirection int
 
 const (
-	AlignDirLeft AlignDirection = iota
+	AlignDirNone AlignDirection = iota
+	AlignDirLeft
 	AlignDirCenter
 	AlignDirRight
 )
 
 func align(val string, fieldLen int, direction AlignDirection) (out string) {
 	spaces := fieldLen - len(val)
-	if spaces < 0 || fieldLen < 0 {
+	if (spaces < 0 || fieldLen < 0) && direction != AlignDirNone {
 		return
 	}
 
@@ -29,6 +30,7 @@ func align(val string, fieldLen int, direction AlignDirection) (out string) {
 		padRight = spaces/2 + spaces%2 + padLeft
 	case AlignDirRight:
 		padLeft = fieldLen
+    default:
 	}
 
 	padLeftFmt := fmt.Sprintf("%%-%ds", padLeft)
@@ -44,35 +46,23 @@ func AlignRight(val string, fieldLen int) string  { return align(val, fieldLen, 
 func AlignCenter(val string, fieldLen int) string { return align(val, fieldLen, AlignDirCenter) }
 
 type LineFormatterField struct {
-	FieldStr   string
 	FieldLen   int
 	FieldAlign AlignDirection
 }
 
-func LineFormatter(format string, fields ...LineFormatterField) (out string) {
-	//func LineFormatter(format string, fields ...struct{fieldStr string; fieldLen int; align AlignDirection}) (out string) {
+func LineFormatter(format string, fields ...LineFormatterField) func (...string) string {
 
-	//var vars []string
-	var vars []interface{}
-	for _, e := range fields {
-		//vars = append(vars, align(e.fieldStr, e.fieldLen, e.align))
-		vars = append(vars, align(e.FieldStr, e.FieldLen, e.FieldAlign))
-	}
-
-	//test := []interface{}(vars)
-	//return fmt.Sprintf(format, test...)
-	return fmt.Sprintf(format, vars...)
-}
-
-func LineFormatter2(format string, fields ...struct {
-	FStr   string
-	FLen   int
-	FAlign AlignDirection
-}) (out string) {
-	var vars []interface{}
-	for _, e := range fields {
-		vars = append(vars, align(e.FStr, e.FLen, e.FAlign))
-	}
-	return fmt.Sprintf(format, vars...)
+    return func(values ...string) string {
+        if len(values) != len(fields) {
+            pmsg := fmt.Sprintf("fields len '%d' (%v) mismatch values len '%d' (%v)",
+                len(fields), fields, len(values), values)
+            panic(pmsg)
+        }
+        var vars []interface{}
+        for i, e := range fields {
+            vars = append(vars, align(values[i], e.FieldLen, e.FieldAlign))
+        }
+        return fmt.Sprintf(format, vars...)
+    }
 }
 

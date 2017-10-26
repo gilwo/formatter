@@ -9,27 +9,15 @@ import (
 
 func main() {
 
-	x := line1.LineFormatterField{"A", 20, line1.AlignDirCenter}
-	y := line1.LineFormatterField{"B", 20, line1.AlignDirCenter}
+    f := line1.LineFormatter("<-- %s | %s | %s : %s -->\n",
+        []line1.LineFormatterField{
+            {20, line1.AlignDirCenter},
+            {20, line1.AlignDirCenter},
+            {20, line1.AlignDirCenter},
+            {20, line1.AlignDirCenter},
+        }...)
 
-	out := line1.LineFormatter("%s <---> %s", x, y)
-	fmt.Println(out)
+    fmt.Printf(f("a", "b", "c", "d"))
+    fmt.Printf(f("mama", "mia", "let", "me"))
 
-	v := []line1.LineFormatterField{
-		{"Z", 5, line1.AlignDirCenter},
-		{"X", 5, line1.AlignDirCenter},
-	}
-	out = line1.LineFormatter("%s <---> %s", v...)
-	fmt.Println(out)
-
-	out = line1.LineFormatter2("%s || %s", struct {
-		FStr   string
-		FLen   int
-		FAlign line1.AlignDirection
-	}{"A", 20, line1.AlignDirCenter}, struct {
-		FStr   string
-		FLen   int
-		FAlign line1.AlignDirection
-	}{"B", 20, line1.AlignDirCenter})
-	fmt.Println(out)
 }
