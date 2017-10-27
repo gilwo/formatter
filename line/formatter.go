@@ -24,7 +24,11 @@ func align(val interface{}, fieldLen int, direction AlignDirection) (out string)
     }
 
     if spaces < 0 {
-        return fmt.Sprintf("%.*s...", fieldLen-3, actVal)
+        if fieldLen > 3 {
+            return fmt.Sprintf("%.*s...", fieldLen-3, actVal)
+        } else {
+            return fmt.Sprintf("%.*s", fieldLen, actVal)
+        }
 	}
 
 	padRight := 0

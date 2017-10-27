@@ -24,7 +24,7 @@ func main() {
     fmt.Println()
     f2 := line1.LineFormatter("<-- %s | %s | %s : %s :: '%s' -->\n",
         []line1.LineFormatterField{
-            {20, line1.AlignDirCenter},
+            {4, line1.AlignDirCenter},
             {20, line1.AlignDirCenter},
             {20, line1.AlignDirCenter},
             {20, line1.AlignDirNone},
