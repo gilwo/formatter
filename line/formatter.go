@@ -32,12 +32,12 @@ func align(val interface{}, fieldLen int, direction AlignDirection) (out string)
 
 	switch direction {
 	case AlignDirLeft:
-		padRight = fieldLen
+		padLeft = fieldLen
 	case AlignDirCenter:
 		padLeft = spaces/2 + lenActVal
 		padRight = spaces/2 + spaces%2 + padLeft
 	case AlignDirRight:
-		padLeft = fieldLen
+		padRight = fieldLen
 	}
 
     padLeftFmt := fmt.Sprintf("%%-%ds", padLeft)
