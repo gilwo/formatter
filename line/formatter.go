@@ -14,12 +14,17 @@ const (
 )
 
 func align(val interface{}, fieldLen int, direction AlignDirection) (out string) {
-    actVal := fmt.Sprintf("%v", val)
-    lenVal := len(actVal)
 
-	spaces := fieldLen - lenVal
-    if (spaces < 0 || fieldLen < 0) && direction != AlignDirNone {
-		return
+    actVal := fmt.Sprintf("%v", val)
+    lenActVal := len(actVal)
+	spaces := fieldLen - lenActVal
+
+    if fieldLen <= 0 {
+        return fmt.Sprintf("%s", actVal)
+    }
+
+    if spaces < 0 {
+        return fmt.Sprintf("%.*s...", fieldLen-3, actVal)
 	}
 
 	padRight := 0
@@ -29,17 +34,16 @@ func align(val interface{}, fieldLen int, direction AlignDirection) (out string)
 	case AlignDirLeft:
 		padRight = fieldLen
 	case AlignDirCenter:
-		padLeft = spaces/2 + lenVal
+		padLeft = spaces/2 + lenActVal
 		padRight = spaces/2 + spaces%2 + padLeft
 	case AlignDirRight:
 		padLeft = fieldLen
-    default:
 	}
 
-	padLeftFmt := fmt.Sprintf("%%-%ds", padLeft)
-	padRightFmt := fmt.Sprintf("%%%ds", padRight)
+    padLeftFmt := fmt.Sprintf("%%-%ds", padLeft)
+    padRightFmt := fmt.Sprintf("%%%ds", padRight)
 
-	out = fmt.Sprintf(padRightFmt, fmt.Sprintf(padLeftFmt, actVal))
+    out = fmt.Sprintf(padRightFmt, fmt.Sprintf(padLeftFmt, actVal))
 
 	return
 }
