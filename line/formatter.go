@@ -61,7 +61,7 @@ func LineFormatter(format string, fields ...LineFormatterField) func (...interfa
 
     return func(values ...interface{}) string {
         if len(values) != len(fields) {
-            pmsg := fmt.Sprintf("fields len '%d' (%v) mismatch values len '%d' (%v)",
+            pmsg := fmt.Sprintf("fields count '%d' (%v) mismatch values count '%d' (%v)",
                 len(fields), fields, len(values), values)
             panic(pmsg)
         }
