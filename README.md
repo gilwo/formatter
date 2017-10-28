@@ -38,7 +38,7 @@ now just print the values
 
 the outout will look like this
 ```bash
-<        A        | B       |          C | D | D -->
+<        A        | B       |          C | D | E -->
 <    Coloumn A    | Colu... |   Column C | Column D | Column E -->
 <       mama      | 444     |        let | me and... | 99191 -->
 <       mama      | {why... |        let | me | 111 -->
