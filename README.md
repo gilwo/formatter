@@ -29,7 +29,7 @@ now get the closure function
 
 now just print the values
 ```go
-    fmt.Printf(lineFunc("A", "B", "C", "D", "D" ))
+    fmt.Printf(lineFunc("A", "B", "C", "D", "E" ))
     fmt.Printf(lineFunc("Coloumn A", "Column B", "Column C", "Column D", "Column E" ))
     fmt.Printf(lineFunc("mama", 444, "let", "me and you go to where we want", 99191))
     fmt.Printf(lineFunc("mama", struct{x string; y int}{"why so serious", 777}, "let", "me", 111))
