@@ -1,4 +1,5 @@
 # formatter
+
 formatter of text when printing consecutive data which need to be at the same format
 
 usage example
@@ -44,3 +45,7 @@ the outout will look like this
 <       mama      | {why... |        let | me | 111 -->
 <       mama      | 1234... |        let | fantas... | map[key:{val 5}] -->
 ```
+
+##### * Note about formatter panic: 
+a panic will be called in the case when the variable `fields` variadic count passed to `LineFormatter` method is not the same count as the `values` variadic variable passed to the closure function created by calling `LineFormatter`
+
