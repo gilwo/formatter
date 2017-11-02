@@ -15,20 +15,20 @@ const (
 
 func align(val interface{}, fieldLen int, direction AlignDirection) (out string) {
 
-    actVal := fmt.Sprintf("%v", val)
-    lenActVal := len(actVal)
+	actVal := fmt.Sprintf("%v", val)
+	lenActVal := len(actVal)
 	spaces := fieldLen - lenActVal
 
-    if fieldLen <= 0 {
-        return fmt.Sprintf("%s", actVal)
-    }
+	if fieldLen <= 0 {
+		return fmt.Sprintf("%s", actVal)
+	}
 
-    if spaces < 0 {
-        if fieldLen > 3 {
-            return fmt.Sprintf("%.*s...", fieldLen-3, actVal)
-        } else {
-            return fmt.Sprintf("%.*s", fieldLen, actVal)
-        }
+	if spaces < 0 {
+		if fieldLen > 3 {
+			return fmt.Sprintf("%.*s...", fieldLen-3, actVal)
+		} else {
+			return fmt.Sprintf("%.*s", fieldLen, actVal)
+		}
 	}
 
 	padRight := 0
@@ -44,10 +44,10 @@ func align(val interface{}, fieldLen int, direction AlignDirection) (out string)
 		padRight = fieldLen
 	}
 
-    padLeftFmt := fmt.Sprintf("%%-%ds", padLeft)
-    padRightFmt := fmt.Sprintf("%%%ds", padRight)
+	padLeftFmt := fmt.Sprintf("%%-%ds", padLeft)
+	padRightFmt := fmt.Sprintf("%%%ds", padRight)
 
-    out = fmt.Sprintf(padRightFmt, fmt.Sprintf(padLeftFmt, actVal))
+	out = fmt.Sprintf(padRightFmt, fmt.Sprintf(padLeftFmt, actVal))
 
 	return
 }
@@ -61,19 +61,18 @@ type LineFormatterField struct {
 	FieldAlign AlignDirection
 }
 
-func LineFormatter(format string, fields ...LineFormatterField) func (...interface{}) string {
+func LineFormatter(format string, fields ...LineFormatterField) func(...interface{}) string {
 
-    return func(values ...interface{}) string {
-        if len(values) != len(fields) {
-            pmsg := fmt.Sprintf("fields count '%d' (%v) mismatch values count '%d' (%v)",
-                len(fields), fields, len(values), values)
-            panic(pmsg)
-        }
-        var vars []interface{}
-        for i, e := range fields {
-            vars = append(vars, align(values[i], e.FieldLen, e.FieldAlign))
-        }
-        return fmt.Sprintf(format, vars...)
-    }
+	return func(values ...interface{}) string {
+		if len(values) != len(fields) {
+			pmsg := fmt.Sprintf("fields count '%d' (%v) mismatch values count '%d' (%v)",
+				len(fields), fields, len(values), values)
+			panic(pmsg)
+		}
+		var vars []interface{}
+		for i, e := range fields {
+			vars = append(vars, align(values[i], e.FieldLen, e.FieldAlign))
+		}
+		return fmt.Sprintf(format, vars...)
+	}
 }
-
