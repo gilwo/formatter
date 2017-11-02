@@ -13,7 +13,7 @@ const (
 	AlignDirRight
 )
 
-func align(val interface{}, fieldLen int, direction AlignDirection) (out string) {
+func align(val interface{}, fieldLen int, direction AlignDirection) string {
 
 	actVal := fmt.Sprintf("%v", val)
 	lenActVal := len(actVal)
@@ -47,9 +47,7 @@ func align(val interface{}, fieldLen int, direction AlignDirection) (out string)
 	padLeftFmt := fmt.Sprintf("%%-%ds", padLeft)
 	padRightFmt := fmt.Sprintf("%%%ds", padRight)
 
-	out = fmt.Sprintf(padRightFmt, fmt.Sprintf(padLeftFmt, actVal))
-
-	return
+	return fmt.Sprintf(padRightFmt, fmt.Sprintf(padLeftFmt, actVal))
 }
 
 func AlignLeft(val string, fieldLen int) string   { return align(val, fieldLen, AlignDirLeft) }
