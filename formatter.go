@@ -4,12 +4,17 @@ import (
 	"fmt"
 )
 
+// AlignDirection ...
 type AlignDirection int
 
 const (
+	// AlignDirNone ...
 	AlignDirNone AlignDirection = iota
+	// AlignDirLeft ...
 	AlignDirLeft
+	// AlignDirCenter ...
 	AlignDirCenter
+	// AlignDirRight ...
 	AlignDirRight
 )
 
@@ -26,9 +31,8 @@ func align(val interface{}, fieldLen int, direction AlignDirection) string {
 	if spaces < 0 {
 		if fieldLen > 3 {
 			return fmt.Sprintf("%.*s...", fieldLen-3, actVal)
-		} else {
-			return fmt.Sprintf("%.*s", fieldLen, actVal)
 		}
+		return fmt.Sprintf("%.*s", fieldLen, actVal)
 	}
 
 	padRight := 0
@@ -50,15 +54,22 @@ func align(val interface{}, fieldLen int, direction AlignDirection) string {
 	return fmt.Sprintf(padRightFmt, fmt.Sprintf(padLeftFmt, actVal))
 }
 
-func AlignLeft(val string, fieldLen int) string   { return align(val, fieldLen, AlignDirLeft) }
-func AlignRight(val string, fieldLen int) string  { return align(val, fieldLen, AlignDirRight) }
+// AlignLeft ...
+func AlignLeft(val string, fieldLen int) string { return align(val, fieldLen, AlignDirLeft) }
+
+// AlignRight ...
+func AlignRight(val string, fieldLen int) string { return align(val, fieldLen, AlignDirRight) }
+
+// AlignCenter ...
 func AlignCenter(val string, fieldLen int) string { return align(val, fieldLen, AlignDirCenter) }
 
+// LineFormatterField ...
 type LineFormatterField struct {
 	FieldLen   int
 	FieldAlign AlignDirection
 }
 
+// LineFormatter ...
 func LineFormatter(format string, fields ...LineFormatterField) func(...interface{}) string {
 
 	return func(values ...interface{}) string {
